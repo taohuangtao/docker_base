@@ -7,5 +7,7 @@
 ## nginx
 nginx 配置文件/etc/nginx/nginx.conf
 ningx 子域名配置目录/etc/nginx/http.d/
+php 配置目录/usr/local/etc/php/php.ini
+php-fpm 配置 /usr/local/etc/php-fpm.conf
 
 和框架集成，配置参考 VirtualHost.conf文件，修改后放入/etc/nginx/http.d/目录

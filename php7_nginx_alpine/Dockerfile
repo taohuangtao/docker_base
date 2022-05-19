@@ -26,7 +26,7 @@ RUN apk --update  --no-cache add nginx \
     && rm -f /etc/nginx/http.d/default.conf \
     && sed -i '/include \/etc\/nginx\/http.d\/\*\.conf\;/a\\    include fastcgi\.conf\;'   /etc/nginx/nginx.conf
 
-COPY nginx.ini /etc/nginx/nginx.conf
+COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY php.ini /usr/local/etc/php/php.ini
 
