@@ -35,8 +35,9 @@ RUN echo 'zend_extension=opcache.so' >> /usr/local/etc/php/conf.d/docker-php-ext
     && echo 'extension=rdkafka.so' > /usr/local/etc/php/conf.d/docker-php-ext-rdkafka.ini \
     && echo 'extension=redis.so' > /usr/local/etc/php/conf.d/docker-php-ext-redis.ini
 
-
+RUN sed -i 's/^pm.max_children = 5/pm.max_children = 100/g' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/^daemonize = no/daemonize = yes/g' /usr/local/etc/php-fpm.d/zz-docker.conf
 
 EXPOSE 80
 
-CMD ["sh","-c","php-fpm7.4 \n nginx -g 'daemon off;'"]
+CMD ["sh","-c","php-fpm \n nginx -g 'daemon off;'"]
