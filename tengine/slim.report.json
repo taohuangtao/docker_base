@@ -1,0 +1,384 @@
+{
+  "version": "1.0",
+  "engine": "darwin|Transformer|1.37.4|2e1992528f556df7e5f91109aef813f0d4488404|2022-02-28_05:50:22AM",
+  "containerized": false,
+  "host_distro": {
+    "name": "",
+    "version": "",
+    "display_name": "Big Sur (11.6)"
+  },
+  "type": "build",
+  "state": "done",
+  "target_reference": "tengine:latest",
+  "system": {
+    "type": "Linux",
+    "release": "5.10.25-linuxkit",
+    "distro": {
+      "name": "Alpine Linux",
+      "version": "3.12.1",
+      "display_name": "Alpine Linux v3.12"
+    }
+  },
+  "source_image": {
+    "identity": {
+      "id": "sha256:bd8d08462efff712e63c09f4e82ecafe1e3e4c062652e49b606a7842f8513b9a",
+      "tags": [
+        "latest"
+      ],
+      "names": [
+        "tengine:latest"
+      ]
+    },
+    "size": 380596154,
+    "size_human": "381 MB",
+    "create_time": "2022-03-07T03:56:31Z",
+    "docker_version": "",
+    "architecture": "amd64",
+    "exposed_ports": [
+      "443/tcp",
+      "80/tcp"
+    ],
+    "os": "linux",
+    "env_vars": [
+      "PATH=/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin",
+      "TZ=Asia/Shanghai"
+    ],
+    "container_entry": {
+      "exe_path": ""
+    }
+  },
+  "minified_image_size": 15556765,
+  "minified_image_size_human": "16 MB",
+  "minified_image": "tengine.slim",
+  "minified_image_has_data": true,
+  "minified_by": 24.464993461044116,
+  "artifact_location": "/Users/huangtao/development/docker-slim/.docker-slim-state/images/bd8d08462efff712e63c09f4e82ecafe1e3e4c062652e49b606a7842f8513b9a/artifacts",
+  "container_report_name": "creport.json",
+  "seccomp_profile_name": "tengine-seccomp.json",
+  "apparmor_profile_name": "tengine-apparmor-profile",
+  "image_stack": [
+    {
+      "is_top_image": true,
+      "id": "sha256:bd8d08462efff712e63c09f4e82ecafe1e3e4c062652e49b606a7842f8513b9a",
+      "full_name": "tengine:latest",
+      "repo_name": "tengine",
+      "version_tag": "latest",
+      "raw_tags": [
+        "tengine:latest"
+      ],
+      "create_time": "2022-03-07T03:56:31Z",
+      "new_size": 380596154,
+      "new_size_human": "381 MB",
+      "instructions": [
+        {
+          "type": "ADD",
+          "time": "2020-10-22T02:19:24Z",
+          "is_nop": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 5573013,
+          "size_human": "5.6 MB",
+          "params": "file:f17f65714f703db9012f00e5ec98d0b2541ff6147c2633f7ab9ba659d0c507f4 in /",
+          "command_snippet": "ADD file:f17f65714f703db9012f00e5ec98d0b2541...",
+          "command_all": "ADD file:f17f65714f703db9012f00e5ec98d0b2541ff6147c2633f7ab9ba659d0c507f4 /",
+          "target": "/",
+          "source_type": "file"
+        },
+        {
+          "type": "CMD",
+          "time": "2020-10-22T02:19:24Z",
+          "is_nop": true,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "params": "[\"/bin/sh\"]\n",
+          "command_snippet": "CMD [\"/bin/sh\"]\n",
+          "command_all": "CMD [\"/bin/sh\"]\n"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-02T03:55:06Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 139,
+          "size_human": "139 B",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"echo\",\"http://dl-...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"echo\",\"http://dl-cdn.alpinelinux.org/alpine/edge/testing\",\">>\",\"/etc/apk/repositories\",\"&&\",\"sed\",\"-i\",\"s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g\",\"/etc/apk/repositories\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"echo\",\"http://dl-cdn.alpinelinux.org/alpine/edge/testing\",\">>\",\"/etc/apk/repositories\",\"",
+            "\",\"sed\",\"-i\",\"s/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g\",\"/etc/apk/repositories\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-02T05:18:51Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 239965509,
+          "size_human": "240 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"update\",\"&&...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"update\",\"&&\",\"apk\",\"add\",\"--no-cache\",\"autoconf\",\"gcc\",\"g++\",\"make\",\"automake\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"update\",\"",
+            "\",\"apk\",\"add\",\"--no-cache\",\"autoconf\",\"gcc\",\"g++\",\"make\",\"automake\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-02T05:19:28Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 8757555,
+          "size_human": "8.8 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"add\",\"--no-...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"add\",\"--no-cache\",\"zlib\",\"zlib-dev\",\"libpng-dev\",\"libjpeg-turbo-dev\",\"freetype-dev\",\"&&\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"bash\",\"&&\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"tzdata\",\"&&\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"gd\",\"&&\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"su-exec\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"add\",\"--no-cache\",\"zlib\",\"zlib-dev\",\"libpng-dev\",\"libjpeg-turbo-dev\",\"freetype-dev\",\"",
+            "\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"bash\",\"",
+            "\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"tzdata\",\"",
+            "\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"gd\",\"",
+            "\",\"apk\",\"add\",\"--no-cache\",\"-U\",\"su-exec\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-02T11:15:55Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 80102081,
+          "size_human": "80 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"add\",\"--no-...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"add\",\"--no-cache\",\"geoip\",\"geoip-dev\",\"pcre\",\"libxslt\",\"gd\",\"openssl-dev\",\"pcre-dev\",\"zlib-dev\",\"build-base\",\"linux-headers\",\"libxslt-dev\",\"gd-dev\",\"openssl-dev\",\"libstdc++\",\"libgcc\",\"patch\",\"logrotate\",\"supervisor\",\"inotify-tools\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"apk\",\"add\",\"--no-cache\",\"geoip\",\"geoip-dev\",\"pcre\",\"libxslt\",\"gd\",\"openssl-dev\",\"pcre-dev\",\"zlib-dev\",\"build-base\",\"linux-headers\",\"libxslt-dev\",\"gd-dev\",\"openssl-dev\",\"libstdc++\",\"libgcc\",\"patch\",\"logrotate\",\"supervisor\",\"inotify-tools\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-03T09:56:20Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 4662,
+          "size_human": "4.7 kB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"addgroup\",\"-g\",\"1...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"addgroup\",\"-g\",\"10001\",\"-S\",\"web\",\"2>\",\"/dev/null\",\"&&\",\"adduser\",\"web\",\"-u\",\"10001\",\"-D\",\"-H\",\"-S\",\"-s\",\"/sbin/nologin\",\"-G\",\"web\",\"2>\",\"/dev/null\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"addgroup\",\"-g\",\"10001\",\"-S\",\"web\",\"2>\",\"/dev/null\",\"",
+            "\",\"adduser\",\"web\",\"-u\",\"10001\",\"-D\",\"-H\",\"-S\",\"-s\",\"/sbin/nologin\",\"-G\",\"web\",\"2>\",\"/dev/null\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-03T09:56:27Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 2848144,
+          "size_human": "2.8 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"wget\",\"http://ten...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"wget\",\"http://tengine.taobao.org/download/tengine-2.3.3.tar.gz\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"wget\",\"http://tengine.taobao.org/download/tengine-2.3.3.tar.gz\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-03T09:56:28Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 15397001,
+          "size_human": "15 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"tar\",\"-xvf\",\"teng...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"tar\",\"-xvf\",\"tengine-2.3.3.tar.gz\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"tar\",\"-xvf\",\"tengine-2.3.3.tar.gz\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-03T09:56:28Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"WORKDIR\",\"/tengine-2.3.3\"]",
+          "command_all": "RUN [\"WORKDIR\",\"/tengine-2.3.3\"]",
+          "system_commands": [
+            "[\"WORKDIR\",\"/tengine-2.3.3\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:55:34Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 88382,
+          "size_human": "88 kB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"pwd\",\"&&\",\"ls\",\"&...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"pwd\",\"&&\",\"ls\",\"&&\",\"./configure\",\"--prefix=/usr/local/tengine\",\"--user=web\",\"--group=web\",\"--with-poll_module\",\"--without-select_module\",\"--with-threads\",\"--with-http_v2_module\",\"--with-http_ssl_module\",\"--with-http_stub_status_module\",\"--with-http_gzip_static_module\",\"--with-http_flv_module\",\"--with-http_mp4_module\",\"--add-module=./modules/ngx_http_concat_module\",\"--add-module=./modules/ngx_http_upstream_check_module\",\"--with-http_realip_module\",\"--with-http_image_filter_module\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"pwd\",\"",
+            "\",\"ls\",\"",
+            "\",\"./configure\",\"--prefix=/usr/local/tengine\",\"--user=web\",\"--group=web\",\"--with-poll_module\",\"--without-select_module\",\"--with-threads\",\"--with-http_v2_module\",\"--with-http_ssl_module\",\"--with-http_stub_status_module\",\"--with-http_gzip_static_module\",\"--with-http_flv_module\",\"--with-http_mp4_module\",\"--add-module=./modules/ngx_http_concat_module\",\"--add-module=./modules/ngx_http_upstream_check_module\",\"--with-http_realip_module\",\"--with-http_image_filter_module\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:30Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 19920413,
+          "size_human": "20 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"make\"]",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"make\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"make\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:30Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 7939241,
+          "size_human": "7.9 MB",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"make\",\"install\"]",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"make\",\"install\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"make\",\"install\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:31Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"WORKDIR\",\"/\"]",
+          "command_all": "RUN [\"WORKDIR\",\"/\"]",
+          "system_commands": [
+            "[\"WORKDIR\",\"/\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:31Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"rm\",\"-rf\",\"/var/c...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"rm\",\"-rf\",\"/var/cache/apk/*\",\"&&\",\"rm\",\"-rf\",\"/tengine-2.3.3\",\"&&\",\"rm\",\"-rf\",\"tengine-2.3.3.tar.gz\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"rm\",\"-rf\",\"/var/cache/apk/*\",\"",
+            "\",\"rm\",\"-rf\",\"/tengine-2.3.3\",\"",
+            "\",\"rm\",\"-rf\",\"tengine-2.3.3.tar.gz\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:31Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"ENV\",\"TZ=Asia/Shanghai\"]",
+          "command_all": "RUN [\"ENV\",\"TZ=Asia/Shanghai\"]",
+          "system_commands": [
+            "[\"ENV\",\"TZ=Asia/Shanghai\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:31Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 14,
+          "size_human": "14 B",
+          "command_snippet": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"echo\",\"$TZ\",\">\",\"...",
+          "command_all": "RUN [\"RUN\",\"/bin/sh\",\"-c\",\"echo\",\"$TZ\",\">\",\"/etc/timezone\"]",
+          "system_commands": [
+            "[\"RUN\",\"/bin/sh\",\"-c\",\"echo\",\"$TZ\",\">\",\"/etc/timezone\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:31Z",
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": false,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"EXPOSE\",\"map[443/tcp:{}\",\"80/tcp:{}]\"]",
+          "command_all": "RUN [\"EXPOSE\",\"map[443/tcp:{}\",\"80/tcp:{}]\"]",
+          "system_commands": [
+            "[\"EXPOSE\",\"map[443/tcp:{}\",\"80/tcp:{}]\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0"
+        },
+        {
+          "type": "RUN",
+          "time": "2022-03-07T03:56:31Z",
+          "is_last_instruction": true,
+          "is_nop": false,
+          "is_exec_form": true,
+          "local_image_exists": true,
+          "layer_index": 0,
+          "size": 0,
+          "command_snippet": "RUN [\"CMD\",\"[sh\",\"-c\",\"/usr/local/tengine/sb...",
+          "command_all": "RUN [\"CMD\",\"[sh\",\"-c\",\"/usr/local/tengine/sbin/nginx -g 'daemon off;']\"]",
+          "system_commands": [
+            "[\"CMD\",\"[sh\",\"-c\",\"/usr/local/tengine/sbin/nginx -g 'daemon off",
+            "']\"]"
+          ],
+          "comment": "buildkit.dockerfile.v0",
+          "raw_tags": [
+            "tengine:latest"
+          ]
+        }
+      ]
+    }
+  ]
+}
