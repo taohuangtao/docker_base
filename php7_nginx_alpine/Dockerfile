@@ -20,7 +20,7 @@ COPY --from=0 /usr/local/lib/php/extensions/no-debug-non-zts-20190902/redis.so /
 COPY --from=0 /usr/local/lib/php/extensions/no-debug-non-zts-20190902/rdkafka.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/
 COPY --from=0 /usr/local/lib/php/extensions/no-debug-non-zts-20190902/gd.so /usr/local/lib/php/extensions/no-debug-non-zts-20190902/
 
-RUN apk --update  --no-cache add zlib zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev librdkafka-dev
+RUN apk --update  --no-cache add zlib zlib-dev libpng-dev libjpeg-turbo-dev freetype-dev librdkafka-dev util-linux
 
 RUN apk --update  --no-cache add nginx \
     && rm -f /etc/nginx/http.d/default.conf \
@@ -38,7 +38,9 @@ RUN echo 'zend_extension=opcache.so' >> /usr/local/etc/php/conf.d/docker-php-ext
 RUN docker-php-ext-install pdo pdo_mysql mysqli \
     && docker-php-ext-enable pdo pdo_mysql mysqli 
 RUN sed -i 's/^pm.max_children = 5/pm.max_children = 100/g' /usr/local/etc/php-fpm.d/www.conf \
-    && sed -i 's/^daemonize = no/daemonize = yes/g' /usr/local/etc/php-fpm.d/zz-docker.conf
+    && sed -i 's/^daemonize = no/daemonize = yes/g' /usr/local/etc/php-fpm.d/zz-docker.conf \
+    && sed -i "s/pm = static/pm = dynamic/g"  /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i "s/;clear_env = no/clear_env = no/g" /usr/local/etc/php-fpm.d/www.conf
 
 EXPOSE 80
 
