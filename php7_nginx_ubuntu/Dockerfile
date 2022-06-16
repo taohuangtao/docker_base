@@ -34,6 +34,11 @@ RUN apt update \
   && apt install -y php7.4-gmp \
   && apt clean
 
+RUN apt update \
+    && apt install -y php-pear php-dev libmcrypt-dev \
+    && pecl install mcrypt \
+    && echo 'extension=mcrypt.so' >  /etc/php/7.4/cli/conf.d/mcrypt.ini && echo 'extension=mcrypt.so' >  /etc/php/7.4/fpm/conf.d/mcrypt.ini
+
 RUN echo '' > /etc/nginx/sites-enabled/default \
   && sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.4/fpm/pool.d/www.conf \
   && sed -i 's/;clear_env = no/clear_env = no/g' /etc/php/7.4/fpm/pool.d/www.conf \
