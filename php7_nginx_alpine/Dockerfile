@@ -38,10 +38,20 @@ RUN echo 'zend_extension=opcache.so' >> /usr/local/etc/php/conf.d/docker-php-ext
 RUN docker-php-ext-install pdo pdo_mysql mysqli \
     && docker-php-ext-enable pdo pdo_mysql mysqli 
 RUN sed -i 's/^pm.max_children = 5/pm.max_children = 100/g' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/user = www-data/user = web/g' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/group = www-data/group = web/g' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/listen.owner = www-data/listen.owner = web/g' /usr/local/etc/php-fpm.d/www.conf \
+    && sed -i 's/listen.group = www-data/listen.group = web/g' /usr/local/etc/php-fpm.d/www.conf \
     && sed -i 's/^daemonize = no/daemonize = yes/g' /usr/local/etc/php-fpm.d/zz-docker.conf \
     && sed -i "s/pm = static/pm = dynamic/g"  /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s/;clear_env = no/clear_env = no/g" /usr/local/etc/php-fpm.d/www.conf
 
+
+RUN groupadd -g 2001 web \
+    && useradd  -g web  -u 2001 -r -m -s /bin/bash  web
+
+
+    
 EXPOSE 80
 
 CMD ["sh","-c","php-fpm \n nginx -g 'daemon off;'"]
