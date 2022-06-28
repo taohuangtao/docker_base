@@ -26,9 +26,6 @@ RUN apk --update  --no-cache add nginx \
     && rm -f /etc/nginx/http.d/default.conf \
     && sed -i '/include \/etc\/nginx\/http.d\/\*\.conf\;/a\\    include fastcgi\.conf\;'   /etc/nginx/nginx.conf
 
-COPY nginx.conf /etc/nginx/nginx.conf
-
-COPY php.ini /usr/local/etc/php/php.ini
 
 RUN echo 'zend_extension=opcache.so' >> /usr/local/etc/php/conf.d/docker-php-ext-gd.ini \
     && echo 'extension=gd.so' > /usr/local/etc/php/conf.d/docker-php-ext-gd.ini \
@@ -46,9 +43,13 @@ RUN sed -i 's/^pm.max_children = 5/pm.max_children = 100/g' /usr/local/etc/php-f
     && sed -i "s/pm = static/pm = dynamic/g"  /usr/local/etc/php-fpm.d/www.conf \
     && sed -i "s/;clear_env = no/clear_env = no/g" /usr/local/etc/php-fpm.d/www.conf
 
+COPY nginx.conf /etc/nginx/nginx.conf
 
-RUN groupadd -g 2001 web \
-    && useradd  -g web  -u 2001 -r -m -s /bin/bash  web
+COPY php.ini /usr/local/etc/php/php.ini
+
+
+RUN addgroup -g 2001 -S web \
+    && adduser web    -u 2001  -D -S -s /bin/bash -G web
 
 
     
