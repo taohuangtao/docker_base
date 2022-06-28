@@ -46,10 +46,10 @@ RUN echo '' > /etc/nginx/sites-enabled/default \
   && sed -i 's/group = www-data/group = web/g' /etc/php/7.4/fpm/pool.d/www.conf \
   && sed -i 's/listen.owner = www-data/listen.owner = web/g' /etc/php/7.4/fpm/pool.d/www.conf \
   && sed -i 's/listen.group = www-data/listen.group = web/g' /etc/php/7.4/fpm/pool.d/www.conf \
-  && sed -i "s/^error_reporting.*/error_reporting = E_ALL/g" /etc/php/7.4/fpm/php.ini \
   && chmod 777 /var/log \
   && sed -i 's/;error_log = php_errors.log/error_log = \/var\/log\/php_errors.log/g' /etc/php/7.4/fpm/php.ini
 
+RUN sed -i "s/^error_reporting.*/error_reporting = E_ALL \& \~E_DEPRECATED \& \~E_STRICT/g" /etc/php/7.4/fpm/php.ini
 
 RUN groupadd -g 2001 web \
     && useradd  -g web  -u 2001 -r -m -s /bin/bash  web
