@@ -47,12 +47,12 @@ COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY php.ini /usr/local/etc/php/php.ini
 
-
+# 基础调整都在上面进行，否则会没有权限执行
 RUN addgroup -g 2001 -S web \
     && adduser web    -u 2001  -D -S -s /bin/bash -G web
 
 
-    
+
 EXPOSE 80
 
 CMD ["sh","-c","php-fpm \n nginx -g 'daemon off;'"]
