@@ -18,8 +18,20 @@ RUN apt update \
   php7.4-ldap php7.4-zip php7.4-fileinfo php7.4-xml php7.4-common php7.4-mbstring \
   php7.4-opcache php7.4-zip \
   php-redis \
-  nginx \
   && apt clean
+
+# INSTALL NGINX
+RUN apt update \
+    && apt install -y curl gnupg2 ca-certificates lsb-release ubuntu-keyring \
+    && apt clean
+RUN curl https://nginx.org/keys/nginx_signing.key | gpg --dearmor \
+    | tee /usr/share/keyrings/nginx-archive-keyring.gpg 
+#RUN gpg --dry-run --quiet --import --import-options import-show /usr/share/keyrings/nginx-archive-keyring.gpg
+RUN echo "deb [signed-by=/usr/share/keyrings/nginx-archive-keyring.gpg] \
+http://nginx.org/packages/ubuntu `lsb_release -cs` nginx" \
+    | tee /etc/apt/sources.list.d/nginx.list
+RUN apt update && apt install -y nginx && apt clean
+
 
 RUN apt update \
     && apt install -y vim \
@@ -39,8 +51,13 @@ RUN apt update \
     && pecl install mcrypt \
     && echo 'extension=mcrypt.so' >  /etc/php/7.4/cli/conf.d/mcrypt.ini && echo 'extension=mcrypt.so' >  /etc/php/7.4/fpm/conf.d/mcrypt.ini
 
-RUN echo '' > /etc/nginx/sites-enabled/default \
-  && sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.4/fpm/pool.d/www.conf \
+
+COPY nginx.conf /etc/nginx/
+COPY fastcgi.conf /etc/nginx/
+RUN rm /etc/nginx/conf.d/default.conf
+
+# RUN echo '' > /etc/nginx/sites-enabled/default \
+RUN sed -i 's/listen = \/run\/php\/php7.4-fpm.sock/listen = 0.0.0.0:9000/g' /etc/php/7.4/fpm/pool.d/www.conf \
   && sed -i 's/;clear_env = no/clear_env = no/g' /etc/php/7.4/fpm/pool.d/www.conf \
   && sed -i 's/user = www-data/user = web/g' /etc/php/7.4/fpm/pool.d/www.conf \
   && sed -i 's/group = www-data/group = web/g' /etc/php/7.4/fpm/pool.d/www.conf \
