@@ -1,6 +1,6 @@
 #!/bin/sh
 set -e
-V=v2.2
+V=v2.3
 L=v2.latest
 docker build -t taohuangtao/php:php7.4-nginx-kafka-$V .
 docker push     taohuangtao/php:php7.4-nginx-kafka-$V
