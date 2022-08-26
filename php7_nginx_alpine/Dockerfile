@@ -32,7 +32,8 @@ RUN printf "%s%s%s%s\n" \
 RUN curl -o /tmp/nginx_signing.rsa.pub https://nginx.org/keys/nginx_signing.rsa.pub \
     && mv /tmp/nginx_signing.rsa.pub /etc/apk/keys/
 RUN apk add nginx@nginx \
-    && rm -f /etc/nginx/http.d/default.conf
+    && rm -f /etc/nginx/http.d/default.conf \
+    && rm -f /etc/nginx/conf.d/default.conf
 COPY nginx.conf /etc/nginx/
 COPY fastcgi.conf /etc/nginx/
     
