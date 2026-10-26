@@ -1,0 +1,73 @@
+# syntax=docker/dockerfile:1
+###############################################################################
+# 内部公共 PHP 基础镜像（供其他系统 FROM 使用）
+#
+# 基于 dhi.io/php:8-debian-dev（DHI 构建变体：自带 apt / pecl / phpize /
+# php-config / gcc / make / git / bash），在此基础上补齐三件事：
+#
+#   1. apt 换阿里云国内源（deb822 格式）
+#   2. 补建 DHI 精简版删除的 adm 组和 www-data 用户
+#      （否则后续 apt 安装 nginx 等包时 dpkg 配置会失败：
+#        chown: invalid user: 'www-data:adm'，且镜像内没有 groupadd/useradd）
+#   3. 从 dhi.io/php:8-debian-fpm 拷入 php-fpm 二进制与 FPM 配置
+#      （dev 变体只有 PHP CLI，不带 php-fpm；DHI 也没有 fpm-dev tag）
+#
+# 构建后其他系统直接：
+#   FROM hub.pengbei.tech:18080/bigdata/php-base:8.5.12
+# 即可自由 apt 装包、pecl 编译扩展；需要 nginx + php-fpm 一体的
+# 直接 FROM hub.pengbei.tech:18080/bigdata/nginx-php:8.5.12
+#
+# 注意：基础镜像钉死 8.5.12。DHI 上游的 "8" 浮动 tag 将来会升级 PHP 版本，
+#       届时需重建本镜像并同步升级所有下游系统（扩展 ABI 随 PHP 版本变化）。
+###############################################################################
+
+FROM dhi.io/php:8-debian-dev
+
+ARG DEBIAN_FRONTEND=noninteractive
+ENV TZ=Asia/Shanghai
+
+# 1. apt 换阿里云国内源
+# 1a. apt 换国内源加速（华为云镜像，实测 Packages 大索引下载最快；aliyun 当前不稳）
+# 1b. 关闭 deb-src（索引下载量减半）；移除境外 dhi.io 源（境内访问慢且不稳定）
+RUN printf '%s\n' \
+        'Types: deb' \
+        'URIs: http://mirrors.huaweicloud.com/debian' \
+        'Suites: trixie trixie-updates' \
+        'Components: main' \
+        'Signed-By: /usr/share/keyrings/debian-archive-keyring.pgp' \
+        '' \
+        'Types: deb' \
+        'URIs: http://mirrors.huaweicloud.com/debian-security' \
+        'Suites: trixie-security' \
+        'Components: main' \
+        'Signed-By: /usr/share/keyrings/debian-archive-keyring.pgp' \
+        > /etc/apt/sources.list.d/debian.sources \
+    && rm -f /etc/apt/sources.list.d/dhi.sources
+
+# 2. 补建系统用户/组（Debian 标准 uid/gid；镜像内无 groupadd/useradd）
+RUN grep -q '^adm:' /etc/group || echo 'adm:x:4:' >> /etc/group \
+    && grep -q '^www-data:' /etc/group || echo 'www-data:x:33:' >> /etc/group \
+    && grep -q '^www-data:' /etc/passwd || echo 'www-data:x:33:33:www-data:/var/www:/usr/sbin/nologin' >> /etc/passwd
+
+# 3. 补齐 libpam-runtime 的 common-* PAM 配置（DHI 精简版删除了这些 conffiles）。
+#    PAM 初始化会解析 /etc/pam.d/ 下全部文件，任一 @include 指向缺失的
+#    common-* 都会导致整体 abort（表现为 "Critical error - immediate abort"），
+#    cron / passwd / su 等依赖 PAM 的组件全部失效。
+RUN printf 'auth [success=1 default=ignore] pam_unix.so nullok\nauth requisite pam_deny.so\nauth required pam_permit.so\n' > /etc/pam.d/common-auth \
+    && printf 'account required pam_unix.so\n' > /etc/pam.d/common-account \
+    && printf 'password [success=1 default=ignore] pam_unix.so obscure yescrypt\npassword requisite pam_deny.so\npassword required pam_permit.so\n' > /etc/pam.d/common-password \
+    && printf 'session required pam_unix.so\n' > /etc/pam.d/common-session \
+    && printf 'session required pam_unix.so\n' > /etc/pam.d/common-session-noninteractive \
+    && printf 'TZ=Asia/Shanghai\n' > /etc/default/locale
+
+# 3. 从 fpm 变体拷入 php-fpm 及 FPM 配置（COPY --from 可直接引用镜像名）
+COPY --from=dhi.io/php:8-debian-fpm /opt/php-8.5/sbin/php-fpm     /opt/php-8.5/sbin/php-fpm
+COPY --from=dhi.io/php:8-debian-fpm /opt/php-8.5/etc/php-fpm.conf /opt/php-8.5/etc/php-fpm.conf
+COPY --from=dhi.io/php:8-debian-fpm /opt/php-8.5/etc/php-fpm.d/   /opt/php-8.5/etc/php-fpm.d/
+
+ENV PATH="/opt/php-8.5/bin:/opt/php-8.5/sbin:${PATH}"
+
+# 清空上游继承的 ENTRYPOINT ["php"]（否则 CMD 参数会被当作 php 的输入文件），
+# 默认进入 bash，方便 docker run -it 做临时构建/调试
+ENTRYPOINT []
+CMD ["/bin/bash"]
