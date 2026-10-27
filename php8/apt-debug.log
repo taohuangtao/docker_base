@@ -1,0 +1,9 @@
+Get:12 http://mirrors.aliyun.com/debian-security trixie-security/main amd64 Packages [270 kB]
+Ign:7 http://dhi.io/deb/debian/main trixie/main amd64 Packages
+Get:7 http://dhi.io/deb/debian/main trixie/main amd64 Packages [7,964 kB]
+Ign:6 http://mirrors.aliyun.com/debian trixie/main Sources
+E: Unable to locate package libfreetype-dev
+E: Unable to locate package libpng-dev
+E: Unable to locate package libjpeg-dev
+E: Unable to locate package libwebp-dev
+APT_DONE

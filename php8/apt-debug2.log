@@ -1,0 +1,7 @@
+5
+libfreetype6: libpng16-16: libjpeg62-turbo: libwebp7: E: Unable to locate package nginx
+E: Unable to locate package libfreetype6
+E: Unable to locate package libpng16-16
+E: Unable to locate package libjpeg62-turbo
+E: Unable to locate package libwebp7
+CHECK_DONE

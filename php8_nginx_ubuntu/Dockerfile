@@ -1,15 +1,18 @@
-FROM php:8.0-fpm
+FROM dhi.io/php:8-debian-fpm
 
-USER root
+# USER root
 
-RUN echo 'deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib \n\
-deb-src http://mirrors.aliyun.com/debian/ bullseye main non-free contrib \n\
-deb http://mirrors.aliyun.com/debian-security/ bullseye-security main \n\
-deb-src http://mirrors.aliyun.com/debian-security/ bullseye-security main \n\
-deb http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib \n\
-deb-src http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib \n\
-deb http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib \n\
-deb-src http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib' > /etc/apt/sources.list
+#RUN echo 'deb http://mirrors.aliyun.com/debian/ bullseye main non-free contrib \n\
+#deb-src http://mirrors.aliyun.com/debian/ bullseye main non-free contrib \n\
+#deb http://mirrors.aliyun.com/debian-security/ bullseye-security main \n\
+#deb-src http://mirrors.aliyun.com/debian-security/ bullseye-security main \n\
+#deb http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib \n\
+#deb-src http://mirrors.aliyun.com/debian/ bullseye-updates main non-free contrib \n\
+#deb http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib \n\
+#deb-src http://mirrors.aliyun.com/debian/ bullseye-backports main non-free contrib' > /etc/apt/sources.list
+
+# RUN sed -i 's|deb.debian.org|mirrors.aliyun.com|g' /etc/apt/sources.list.d/debian.sources
+
 
 ARG DEBIAN_FRONTEND=noninteractive
 ENV TZ=Asia/Shanghai
@@ -17,13 +20,15 @@ ENV TZ=Asia/Shanghai
 RUN pecl install -f redis \
   && docker-php-ext-enable redis
 
+
+
 RUN apt update \ 
   && apt install -y librdkafka-dev \
   && pecl install -f rdkafka \
   && docker-php-ext-enable rdkafka \
   && apt clean
 
-RUN docker-php-ext-enable opcache
+ 
 
 RUN docker-php-ext-install pdo_mysql
 
@@ -34,7 +39,14 @@ RUN apt update \
   && apt clean
 
 
-
+RUN apt update \
+  && apt install -y curl \
+  && apt clean
+  
+  
+RUN apt update \
+  && apt install -y nginx \
+  && apt clean
 
 # RUN apt -y install autoconf
 # RUN apt -y install gcc make openssl curl libbz2-dev libxml2-dev libjpeg-dev libpng-dev libfreetype6-dev libzip-dev libssl-dev
@@ -110,15 +122,25 @@ RUN mkdir -p /data/project \
 
 WORKDIR /data/project
 
-USER web
+
 
 RUN composer config -g repos.packagist composer https://mirrors.cloud.tencent.com/composer/
 
+
+RUN sed -i 's/pm.max_children = 5/pm.max_children = 50/g' /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i 's/user = www-data/user = web/g' /usr/local/etc/php-fpm.d/www.conf
+RUN sed -i 's/group = www-data/group = web/g' /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'env[PROFILE] = $PROFILE' >> /usr/local/etc/php-fpm.d/www.conf
+RUN echo 'env[profile] = $profile' >> /usr/local/etc/php-fpm.d/www.conf
+
+
+RUN sed -i 's/worker_processes auto/worker_processes 1/g' /etc/nginx/nginx.conf
+
 EXPOSE 80
 
-# CMD ["sh","-c","php-fpm8.0 \n nginx -g 'daemon off;'"]
+CMD ["sh","-c","php-fpm \n nginx -g 'daemon off;'"]
 
-# php 配置目录 /etc/php/7.4/fpm
+# php 配置目录 /usr/local/etc/php-fpm.conf
 # nginx 配置目录 /etc/nginx
 # php 日志 /var/log/php_errors.log
 # php 用户 www-data
